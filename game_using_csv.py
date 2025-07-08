@@ -2,8 +2,23 @@ import requests
 from bs4 import BeautifulSoup
 from random import choice
 from csv import DictReader
+from pyfiglet import figlet_format
+from termcolor import colored
+from random import randint
 
 BASE_URL = "http://quotes.toscrape.com"
+
+
+def show_title():
+    colors = ("red", "green", "yellow", "blue", "magenta", "cyan")
+
+    choice = randint(0, 5)
+    clr = colors[choice]
+
+    text = figlet_format("Quizzical Quotes", font="big")
+    print("\n")
+    print(colored(text, clr))
+
 
 def read_quotes(filename):
     with open(filename, 'r') as file:
@@ -40,6 +55,7 @@ def print_hint(quote, remaining_guesses, name):
 def start_game(quotes):
     quote = choice(quotes)
     remaining_guesses = 5
+    show_title()
     print("Here's a quote: ")
     print(quote['text'])
     #print(quote['author'])

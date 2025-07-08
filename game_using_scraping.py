@@ -2,6 +2,19 @@ import requests
 from bs4 import BeautifulSoup
 from time import sleep
 from random import choice
+from pyfiglet import figlet_format
+from termcolor import colored
+from random import randint
+
+def show_title():
+    colors = ("red", "green", "yellow", "blue", "magenta", "cyan")
+
+    choice = randint(0, 5)
+    clr = colors[choice]
+
+    text = figlet_format("Quizzical Quotes", font="big")
+    print("\n")
+    print(colored(text, clr))
 
 
 def replace_info(string, sections):
@@ -62,6 +75,7 @@ def print_hint(quote, remaining_guesses, name):
 def start_game(quotes):
     quote = choice(quotes)
     remaining_guesses = 5
+    show_title()
     print("Here's a quote: ")
     print(quote['text'])
     #print(quote['author'])
@@ -87,6 +101,7 @@ def start_game(quotes):
     while again.lower() not in ('y','yes','n','no'):
         again = input("Would you like to play again (Y/N)? ")
     if again.lower() in ('y','yes'):
+        print("\n")
         return start_game(quotes)
     elif again.lower() in ('n', 'no'):
         print("Okay, goodbye!")
