@@ -15,7 +15,7 @@ def show_title():
     choice = randint(0, 5)
     clr = colors[choice]
 
-    text = figlet_format("Quizzical Quotes", font="big")
+    text = figlet_format("Word for Word", font="big")
     print("\n")
     print(colored(text, clr))
 
