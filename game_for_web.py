@@ -48,18 +48,20 @@ def print_hint(quote, remaining_guesses, name):
         info = soup.find(class_='author-description').get_text()
         sections = name.split(' ')
         return f"Sorry, that's incorrect! Here's a hint:\nHint #4: Here is more info about this author.\n{replace_info(info, sections)}"
-    elif remaining_guesses == 0:
-        return f"Sorry, that's incorrect!\nYou ran out of guesses. The correct answer was: {name}"
     else:
-        print(remaining_guesses)
-        return "error"
+        return "Take your first guess above!"
+    # elif remaining_guesses == 0:
+    #     return f"Sorry, that's incorrect!\nYou ran out of guesses. The correct answer was: {name}"
+    # else:
+    #     print(remaining_guesses)
+    #     return "error"
 
 
 
 def make_guess(quote, remaining_guesses, guess):
     name = quote[1]
     if guess.lower() == name.lower():
-        return "\nThat is correct! Congratulations, you've correctly guessed the author of the quote."
+        return "That is correct! Congratulations, you've correctly guessed the author of the quote."
 
     if remaining_guesses >= 0:
         return print_hint(quote, remaining_guesses, name)

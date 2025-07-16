@@ -18,14 +18,19 @@ def new_round():
     st.session_state["quote"] = choice(quotes)
     st.session_state["remaining_guesses"] = 5
     st.session_state["game_over"] = False
+    response.empty()
 
 
 def check_win_lose():
     if st.session_state["guess"].lower() == st.session_state.quote[1].lower():
         st.session_state.game_over = True
+        response.info("That is correct! Congratulations, you've correctly guessed the author of the quote.")
+        sleep(3)
         new_round()
     elif st.session_state.remaining_guesses == 0:
         st.session_state.game_over = True
+        response.info(f"Sorry, that's incorrect!\nYou ran out of guesses. The correct answer was: {name}")
+        sleep(2.5)
         new_round()
 
 
@@ -76,15 +81,17 @@ if "game_over" not in st.session_state:
     st.session_state.game_over = False
 
 quote = st.session_state.quote
+name = quote[1]
 st.write(quote[0])
 
 
 guess_made = st.text_input(label="Enter your guess:", key="guess", on_change=decrement_guesses)
 
 
+response = st.empty()
 
 if st.session_state.get("guess"):
-    st.info(game_for_web.make_guess(st.session_state.quote, st.session_state.remaining_guesses, st.session_state["guess"]))
+    response.info(game_for_web.make_guess(st.session_state.quote, st.session_state.remaining_guesses, st.session_state["guess"]))
 
 
 
