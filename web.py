@@ -8,7 +8,7 @@ from time import sleep
 def decrement_guesses():
     if st.session_state.remaining_guesses >= 0:
         st.session_state.remaining_guesses -= 1
-    print(st.session_state.remaining_guesses)
+        
     check_win_lose()
     if st.session_state.game_over == True:
         st.session_state.guess = ""
@@ -25,12 +25,14 @@ def check_win_lose():
     if st.session_state["guess"].lower() == st.session_state.quote[1].lower():
         st.session_state.game_over = True
         response.info("That is correct! Congratulations, you've correctly guessed the author of the quote.")
-        sleep(3)
+        st.session_state.score += 1
+        sleep(2)
         new_round()
     elif st.session_state.remaining_guesses == 0:
         st.session_state.game_over = True
-        response.info(f"Sorry, that's incorrect!\nYou ran out of guesses. The correct answer was: {name}")
-        sleep(2.5)
+        response.info(f"Sorry, that's incorrect! You ran out of guesses. The correct answer was: {name}")
+        st.session_state.score -= 1
+        sleep(2)
         new_round()
 
 
@@ -40,7 +42,7 @@ st.set_page_config(layout = 'wide')
 st.markdown(
     f"""<h1 style='
         color: {game_for_web.get_color()}; 
-        font-family: "Optima";
+        font-family: "Verdana";
         font-size: 100px; 
         text-align: center;
         '>WORD FOR WORD</h1>""", 
@@ -50,7 +52,7 @@ st.markdown(
 col1, middle, col2 = st.columns([1.5, 0.1, 1.5])
 
 with col1:
-    st.image('images/whosaidthat.jpg')
+    st.image('images/whosaidquote.png')
 
 with col2:
     st.title('"Who said that?!"')
@@ -61,13 +63,15 @@ with col2:
 
             After each incorrect guess, you will receive a helpful hint!
 
-            If you run out of guesses, you lose and the answer will be provided. Your score will be reset to 0 points.
+            For each person you are able to guess correctly, you win that round and 1 point will be added to your score!
 
-            If you can achieve 10 points by consecutively guessing ten correctly, then you win the game!""")
+            If you run out of guesses, you lose that round and the answer will be provided. Your score will be deducted by 1 point.
+
+            If you can achieve 10 points, then you win the game!""")
 
 
+col3, divider, col4 = st.columns([2, 0.1, 1])
 
-st.header("Here's a quote:")
 
 quotes = game_for_web.get_quotes_list("quotes.db")
 
@@ -80,15 +84,20 @@ if "remaining_guesses" not in st.session_state:
 if "game_over" not in st.session_state:
     st.session_state.game_over = False
 
+if "score" not in st.session_state:
+    st.session_state.score = 0
+
 quote = st.session_state.quote
 name = quote[1]
-st.write(quote[0])
 
 
-guess_made = st.text_input(label="Enter your guess:", key="guess", on_change=decrement_guesses)
 
 
-response = st.empty()
+with col3:
+    st.header("Here's a quote:")
+    st.write(quote[0])
+    guess_made = st.text_input(label="Enter your guess:", key="guess", on_change=decrement_guesses)
+    response = st.empty()
 
 if st.session_state.get("guess"):
     response.info(game_for_web.make_guess(st.session_state.quote, st.session_state.remaining_guesses, st.session_state["guess"]))
