@@ -28,7 +28,7 @@ def check_win_lose():
         response.info("That is correct! Congratulations, you've correctly guessed the author of the quote.")
         st.session_state.score += 1
         score_display.title(f"Score: {st.session_state.score}")
-        if st.session_state.score == 2:
+        if st.session_state.score == 10:
             win_message.markdown("Congratulations, you won the game!  \n:tada::fire::balloon::confetti_ball:  \nNew game loading. . .")
             sleep(4)
             st.session_state.score = 0
