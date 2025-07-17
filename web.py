@@ -8,7 +8,7 @@ from time import sleep
 def decrement_guesses():
     if st.session_state.remaining_guesses >= 0:
         st.session_state.remaining_guesses -= 1
-        
+
     check_win_lose()
     if st.session_state.game_over == True:
         st.session_state.guess = ""
@@ -19,6 +19,7 @@ def new_round():
     st.session_state["remaining_guesses"] = 5
     st.session_state["game_over"] = False
     response.empty()
+    win_message.empty()
 
 
 def check_win_lose():
@@ -26,14 +27,25 @@ def check_win_lose():
         st.session_state.game_over = True
         response.info("That is correct! Congratulations, you've correctly guessed the author of the quote.")
         st.session_state.score += 1
-        sleep(2)
-        new_round()
+        score_display.title(f"Score: {st.session_state.score}")
+        if st.session_state.score == 2:
+            win_message.markdown("Congratulations, you won the game!  \n:tada::fire::balloon::confetti_ball:  \nNew game loading. . .")
+            sleep(4)
+            st.session_state.score = 0
+            response.info("Take your first guess above!")
+            new_round()
+        else:
+            sleep(2)
+            new_round()
     elif st.session_state.remaining_guesses == 0:
         st.session_state.game_over = True
         response.info(f"Sorry, that's incorrect! You ran out of guesses. The correct answer was: {name}")
-        st.session_state.score -= 1
+        if st.session_state.score > 0:
+            st.session_state.score -= 1
+        score_display.title(f"Score: {st.session_state.score}")
         sleep(2)
         new_round()
+
 
 
 st.set_page_config(layout = 'wide')
@@ -70,7 +82,6 @@ with col2:
             If you can achieve 10 points, then you win the game!""")
 
 
-col3, divider, col4 = st.columns([2, 0.1, 1])
 
 
 quotes = game_for_web.get_quotes_list("quotes.db")
@@ -87,11 +98,12 @@ if "game_over" not in st.session_state:
 if "score" not in st.session_state:
     st.session_state.score = 0
 
+
 quote = st.session_state.quote
 name = quote[1]
 
 
-
+col3, divider, col4 = st.columns([2, 0.1, 1])
 
 with col3:
     st.header("Here's a quote:")
@@ -104,3 +116,6 @@ if st.session_state.get("guess"):
 
 
 
+with col4:
+    score_display = st.title(f"Score: {st.session_state.score}")
+    win_message = st.empty()
