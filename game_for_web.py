@@ -47,7 +47,7 @@ def print_hint(quote, remaining_guesses, name):
     elif remaining_guesses == 1:
         info = soup.find(class_='author-description').get_text()
         sections = name.split(' ')
-        return f"Sorry, that's incorrect! Here's a hint.  \nHint #4: Here is more info about this author.\n{replace_info(info, sections)}"
+        return f"Sorry, that's incorrect! Here's a hint. Hint #4: Here is more info about this author. {replace_info(info, sections)}"
     else:
         return "Take your first guess above!"
     # elif remaining_guesses == 0:
