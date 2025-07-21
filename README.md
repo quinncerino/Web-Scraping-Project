@@ -1,5 +1,9 @@
 # Word for Word
 
-This is an interactive quote-guessing simulation. When given a quote, can you guess who said it, word for word?
+Deployed web app link: https://wordforword.streamlit.app/
 
-This project was developed using web scraping, SQL, Streamlit, and HTML/CSS elements
+Word for Word is an interactive quote-guessing web app built using Python, and created and deployed using Streamlit. When given a quote, can you guess who said it, word for word?
+
+This project utilizes web scraping, and it works in connection with an external SQL database using SQLite.
+
+📝🗣️📖🎮💡📚🏆🎉
