@@ -1,10 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-from random import choice
-from csv import DictReader
-from pyfiglet import figlet_format
-from termcolor import colored
-from random import randint
 from time import sleep
 import sqlite3
 

@@ -1,8 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-from random import choice
-from pyfiglet import figlet_format
-from termcolor import colored
 from random import randint
 import sqlite3
 
